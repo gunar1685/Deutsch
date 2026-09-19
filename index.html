@@ -590,7 +590,7 @@
       <div class="progress-outer"><div class="progress-inner" id="diktat-progress"></div></div>
       <div id="diktat-quiz-body">
         <div class="question-box" id="diktat-question" style="display:none"></div>
-        <button type="button" class="tts-btn-big" id="diktat-tts-btn">🔊 Wort nochmal hören</button>
+        <button type="button" class="tts-btn-big" id="diktat-tts-btn">🔊 Wort abspielen</button>
         <button type="button" class="hint-btn" id="diktat-hint-btn">💡 Tipp</button>
         <div class="hint-text" id="diktat-hint-text" style="display:none"></div>
         <div class="options" id="diktat-options"></div>
@@ -1484,10 +1484,6 @@ function diktatGenQuestion(){
 function diktatOnQuestion(q){
   const qEl = document.getElementById('diktat-question');
   qEl.setAttribute('data-audio', q._audioWord);
-  const section = document.getElementById('sec-diktat');
-  if(section && section.classList.contains('active')){
-    speak(q._audioWord);
-  }
 }
 function diktatHint(){
   return 'Du kannst dir das Wort mit dem 🔊-Knopf beliebig oft anhören. Achte genau auf jeden Laut!';
@@ -1582,10 +1578,6 @@ function mixOnQuestion(q){
   const qEl = document.getElementById('mix-question');
   if(q._module==='diktat'){
     qEl.setAttribute('data-audio', q._audioWord);
-    const section = document.getElementById('sec-mix');
-    if(section && section.classList.contains('active')){
-      speak(q._audioWord);
-    }
   } else {
     qEl.removeAttribute('data-audio');
   }
