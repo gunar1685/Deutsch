@@ -1,7 +1,7 @@
 // Bei jeder inhaltlichen Änderung der App diese Versionsnummer erhöhen (v2, v3, ...).
 // Das zwingt Browser dazu, den Service Worker neu zu installieren statt die alte
 // Version aus dem Cache weiterzuverwenden.
-const CACHE_NAME = "deutsch-detektiv-cache-v3";
+const CACHE_NAME = "deutsch-detektiv-cache-v4";
 const ASSETS = [
   "./",
   "./index.html",
