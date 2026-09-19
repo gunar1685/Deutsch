@@ -1,0 +1,1636 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
+<title>Deutsch-Detektiv 🔤 — Larisas Lernapp</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#6c5ce7">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Deutsch-Detektiv">
+<link rel="icon" href="icon-192.png" type="image/png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --purple:#6c5ce7;
+    --purple-deep:#5847d1;
+    --pink:#ef5fa7;
+    --blue:#3b9eff;
+    --green:#2eb872;
+    --orange:#ff9f43;
+    --yellow:#ffc94d;
+    --red:#e8506a;
+    --bg:#f6f6fb;
+    --surface:#ffffff;
+    --dark:#2a2440;
+    --muted:#79778f;
+    --border:rgba(42,36,64,0.08);
+    --font-display:'Poppins','Segoe UI',system-ui,sans-serif;
+    --font-body:'Inter','Segoe UI',system-ui,sans-serif;
+    --shadow-sm:0 1px 3px rgba(42,36,64,0.08);
+    --shadow-md:0 4px 14px rgba(42,36,64,0.08);
+    --radius-lg:20px;
+    --radius-md:14px;
+    --radius-sm:11px;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  html{font-size: clamp(14px, 1vw + 10px, 19px);}
+  body{
+    margin:0;
+    font-family:var(--font-body);
+    background:var(--bg);
+    min-height:100vh;
+    min-height:100dvh;
+    color:var(--dark);
+    padding-bottom:clamp(24px,6vw,40px);
+    overflow-x:hidden;
+  }
+  header{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    text-align:center;
+    padding:clamp(18px,4.5vw,24px) 16px clamp(12px,3vw,16px);
+    max-width:min(560px, 94vw);
+    margin:0 auto;
+  }
+  header h1{
+    margin:0;
+    display:flex;
+    align-items:center;
+    gap:8px;
+    font-family:var(--font-display);
+    font-weight:600;
+    font-size:clamp(1.2rem, 3.8vw, 1.55rem);
+    color:var(--dark);
+    letter-spacing:-0.01em;
+  }
+  header h1 .header-icon{font-size:0.9em;}
+  header p{margin:4px 0 0;font-size:clamp(0.78rem, 2.4vw, 0.9rem);color:var(--muted);font-weight:500;}
+
+  nav{
+    display:flex;
+    flex-wrap:wrap;
+    gap:2px;
+    max-width:min(560px, 94vw);
+    margin:0 auto clamp(14px,3.5vw,18px);
+    padding:4px;
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:var(--radius-md);
+    box-shadow:var(--shadow-sm);
+  }
+  nav button{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:3px;
+    flex:1 1 21%;
+    min-width:60px;
+    border:none;
+    border-radius:10px;
+    padding:clamp(6px,1.8vw,8px) 2px;
+    background:transparent;
+    color:var(--muted);
+    cursor:pointer;
+    transition:background 0.15s ease, color 0.15s ease;
+  }
+  nav button .nav-icon{font-size:clamp(0.95rem,3.2vw,1.15rem);line-height:1;}
+  nav button .nav-label{
+    font-family:var(--font-display);
+    font-size:clamp(0.56rem, 1.8vw, 0.66rem);
+    font-weight:600;
+    line-height:1.15;
+    text-align:center;
+  }
+  nav button:active{opacity:0.75;}
+  nav button.active{background:var(--bg);color:var(--purple);}
+
+  main{max-width:min(560px, 94vw);margin:0 auto;}
+  .card{
+    background:var(--surface);
+    border-radius:var(--radius-lg);
+    padding:clamp(16px,4.5vw,22px);
+    box-shadow:var(--shadow-md);
+    margin-bottom:clamp(12px,4vw,18px);
+    border:1px solid var(--border);
+  }
+  .section{display:none;}
+  .section.active{display:block;animation:section-fade-in 0.22s ease;}
+  @keyframes section-fade-in{
+    from{opacity:0;transform:translateY(4px);}
+    to{opacity:1;transform:translateY(0);}
+  }
+
+  h2{
+    margin:0 0 10px;
+    padding-bottom:10px;
+    border-bottom:1px solid var(--border);
+    color:var(--dark);
+    font-family:var(--font-display);
+    font-weight:700;
+    font-size:clamp(1.05rem,3.4vw,1.22rem);
+  }
+  h3{
+    color:var(--dark);
+    font-family:var(--font-display);
+    font-weight:700;
+    font-size:clamp(0.9rem,2.8vw,1.02rem);
+    margin:0 0 10px;
+  }
+
+  .info-list{line-height:1.6;font-size:clamp(0.88rem,2.8vw,0.98rem);color:var(--muted);}
+  .info-list b{color:var(--dark);}
+  .fresch-legend{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 4px;}
+  .fresch-chip{
+    display:inline-flex;align-items:center;gap:5px;
+    padding:5px 10px;border-radius:var(--radius-sm);
+    font-size:clamp(0.74rem,2.4vw,0.85rem);font-weight:700;color:#fff;
+  }
+  .fresch-chip.nomen{background:#e8506a;}
+  .fresch-chip.verb{background:#3b9eff;}
+  .fresch-chip.adjektiv{background:#2eb872;}
+
+  .mode-toggle{
+    display:flex;
+    flex-wrap:wrap;
+    gap:6px;
+    justify-content:center;
+    margin-bottom:12px;
+    background:var(--bg);
+    border-radius:var(--radius-sm);
+    padding:4px;
+  }
+  .mode-toggle button{
+    border:none;
+    border-radius:8px;
+    padding:clamp(6px,2vw,7px) clamp(10px,3vw,13px);
+    font-size:clamp(0.7rem,2.3vw,0.82rem);
+    font-weight:600;
+    background:transparent;
+    color:var(--muted);
+    cursor:pointer;
+    transition:background 0.15s ease, color 0.15s ease;
+  }
+  .mode-toggle button:active{opacity:0.8;}
+  .mode-toggle button.active{background:var(--surface);color:var(--purple);box-shadow:var(--shadow-sm);}
+
+  .question-row{display:flex;align-items:center;justify-content:center;gap:4px;}
+  .question-row .question-box{flex:1;margin:14px 0;}
+  .question-box{
+    background:var(--bg);
+    border-radius:var(--radius-md);
+    padding:clamp(13px,4vw,17px);
+    margin:clamp(10px,3vw,14px) 0;
+    font-size:clamp(1.05rem,3.6vw,1.3rem);
+    text-align:center;
+    font-weight:700;
+    border:1px solid var(--border);
+    letter-spacing:0.02em;
+  }
+  .question-box.small-text{font-size:clamp(0.92rem,3.2vw,1.08rem);letter-spacing:normal;}
+  .tts-btn{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    border:none;
+    border-radius:50%;
+    width:clamp(30px,8vw,36px);
+    height:clamp(30px,8vw,36px);
+    background:var(--blue);
+    color:#fff;
+    font-size:clamp(0.9rem,3vw,1.1rem);
+    cursor:pointer;
+    box-shadow:var(--shadow-sm);
+    margin-left:8px;
+    vertical-align:middle;
+    transition:transform 0.1s ease;
+  }
+  .tts-btn:active{transform:scale(0.92);}
+  .tts-btn-big{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    width:100%;
+    border:none;
+    border-radius:var(--radius-sm);
+    padding:clamp(12px,3.6vw,15px);
+    background:var(--blue);
+    color:#fff;
+    font-family:var(--font-display);
+    font-weight:700;
+    font-size:clamp(0.92rem,3vw,1.05rem);
+    cursor:pointer;
+    box-shadow:var(--shadow-sm);
+    margin:6px 0 4px;
+    transition:transform 0.1s ease;
+  }
+  .tts-btn-big:active{transform:scale(0.97);}
+
+  .options{display:grid;grid-template-columns:1fr 1fr;gap:clamp(8px,2.6vw,11px);margin-top:10px;}
+  .options.options-3col{grid-template-columns:1fr 1fr 1fr;}
+  .options button{
+    border:none;
+    border-radius:var(--radius-sm);
+    padding:clamp(11px,3.6vw,15px) clamp(4px,1.5vw,8px);
+    font-size:clamp(0.84rem,2.9vw,1.02rem);
+    font-weight:700;
+    background:var(--blue);
+    color:#fff;
+    box-shadow:var(--shadow-sm);
+    cursor:pointer;
+    word-break:break-word;
+    transition:transform 0.1s ease, opacity 0.12s ease, background 0.15s ease;
+  }
+  .options.options-3col button{font-size:clamp(0.74rem,2.5vw,0.86rem);}
+  .options button:active{transform:scale(0.97);opacity:0.92;}
+  .options button.correct{background:var(--green);}
+  .options button.wrong{background:var(--red);}
+
+  .feedback{min-height:28px;text-align:center;font-size:clamp(0.92rem,3vw,1.05rem);font-weight:700;margin-top:8px;}
+  .feedback.ok{color:var(--green);}
+  .feedback.no{color:var(--red);}
+
+  .scorebar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    font-size:clamp(0.78rem,2.4vw,0.9rem);
+    color:var(--muted);
+    font-weight:600;
+    margin-bottom:8px;
+  }
+  .scorebar span b{color:var(--purple);}
+
+  .progress-outer{background:var(--border);border-radius:20px;height:7px;overflow:hidden;margin-bottom:14px;}
+  .progress-inner{height:100%;width:0%;background:var(--purple);border-radius:20px;transition:width 0.35s cubic-bezier(.4,0,.2,1);}
+  .progress-inner.review{background:var(--orange);}
+
+  .round-complete{position:relative;text-align:center;padding:6px 0 4px;overflow:hidden;min-height:180px;}
+  .round-complete h3{color:var(--purple);font-weight:700;font-size:clamp(1.15rem,3.8vw,1.35rem);margin:6px 0 4px;border:none;}
+  .round-complete p{font-size:clamp(0.92rem,3vw,1.02rem);margin:0 0 8px;font-weight:600;color:var(--muted);}
+  .round-complete .best-note{font-size:clamp(0.8rem,2.6vw,0.9rem);color:var(--purple);font-weight:700;margin:0 0 10px;}
+  .stars{font-size:clamp(1.6rem,6.5vw,2.15rem);margin-bottom:6px;letter-spacing:5px;}
+  .confetti{position:absolute;inset:0;pointer-events:none;overflow:hidden;}
+  .confetti-piece{position:absolute;top:-24px;font-size:1.3rem;animation:confetti-fall 1.9s ease-in forwards;}
+  @keyframes confetti-fall{to{ transform:translateY(220px) rotate(360deg); opacity:0; }}
+
+  .next-btn{
+    display:block;
+    margin:14px auto 0;
+    border:none;
+    border-radius:var(--radius-sm);
+    padding:clamp(10px,3vw,12px) clamp(18px,5.5vw,24px);
+    background:var(--purple);
+    color:#fff;
+    font-family:var(--font-display);
+    font-weight:700;
+    font-size:clamp(0.88rem,2.9vw,0.98rem);
+    box-shadow:var(--shadow-sm);
+    cursor:pointer;
+    transition:transform 0.1s ease, opacity 0.12s ease;
+  }
+  .next-btn:active{transform:scale(0.97);opacity:0.92;}
+
+  .hint-btn{
+    display:block;
+    margin:0 auto 10px;
+    border:none;
+    border-radius:var(--radius-sm);
+    padding:clamp(6px,2vw,7px) clamp(13px,3.8vw,17px);
+    font-size:clamp(0.76rem,2.5vw,0.83rem);
+    font-weight:700;
+    background:#fff3d6;
+    color:#8a6300;
+    cursor:pointer;
+    transition:transform 0.1s ease;
+  }
+  .hint-btn:active{transform:scale(0.97);}
+  .hint-text{
+    background:#fffaef;
+    border:1px solid #f2ddaa;
+    border-radius:var(--radius-sm);
+    padding:clamp(8px,3vw,10px) clamp(10px,3.4vw,12px);
+    font-size:clamp(0.83rem,2.7vw,0.88rem);
+    line-height:1.45;
+    margin:0 0 10px;
+    color:#7a5d00;
+  }
+
+  .parent-section{max-width:min(560px, 94vw);margin:6px auto 0;}
+  .parent-toggle-btn{
+    display:block;
+    width:100%;
+    border:none;
+    border-radius:var(--radius-md);
+    padding:clamp(11px,3.6vw,13px);
+    background:var(--surface);
+    border:1px solid var(--border);
+    color:var(--purple);
+    font-weight:700;
+    font-size:clamp(0.84rem,2.7vw,0.93rem);
+    cursor:pointer;
+    transition:opacity 0.12s ease;
+  }
+  .parent-toggle-btn:active{opacity:0.85;}
+  .parent-panel{
+    background:var(--surface);
+    border-radius:var(--radius-md);
+    padding:clamp(10px,3.6vw,14px);
+    margin-top:10px;
+    box-shadow:var(--shadow-md);
+    max-height:440px;
+    overflow-y:auto;
+  }
+  .parent-hint{font-size:clamp(0.76rem,2.5vw,0.83rem);color:var(--muted);margin:0 0 10px;}
+  .parent-subhead{font-family:var(--font-display);font-weight:700;font-size:clamp(0.8rem,2.6vw,0.9rem);color:var(--dark);margin:0 0 8px;}
+  .best-list{margin-bottom:14px;padding-bottom:12px;border-bottom:1px solid var(--border);}
+  .best-entry{display:flex;justify-content:space-between;align-items:center;font-size:clamp(0.8rem,2.6vw,0.88rem);padding:5px 2px;}
+  .best-entry b{color:var(--purple);}
+  .parent-entry{border-radius:var(--radius-sm);padding:8px 10px;margin-bottom:8px;font-size:clamp(0.8rem,2.7vw,0.88rem);background:var(--bg);}
+  .parent-entry.ok{border-left:3px solid var(--green);}
+  .parent-entry.no{border-left:3px solid var(--red);}
+  .parent-entry-top{display:flex;justify-content:space-between;font-weight:700;font-size:0.76rem;color:var(--muted);margin-bottom:2px;}
+  .parent-question{font-weight:700;margin-bottom:2px;}
+  .parent-answers{color:var(--muted);}
+  .parent-empty{color:var(--muted);font-size:0.88rem;margin:0;}
+  .parent-clear-btn{
+    display:block;
+    margin:10px auto 0;
+    border:none;
+    border-radius:10px;
+    padding:6px 14px;
+    font-size:0.78rem;
+    font-weight:700;
+    background:var(--bg);
+    color:var(--muted);
+    cursor:pointer;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1><span class="header-icon">🔤</span>Deutsch-Detektiv</h1>
+  <p>ABC, Rechtschreibung, Grammatik &amp; mehr üben</p>
+</header>
+
+<nav id="tabnav"></nav>
+
+<main>
+
+  <!-- ABC-WÖRTER -->
+  <section class="section" id="sec-abc">
+    <div class="card">
+      <h2>🔤 ABC-Wörter</h2>
+      <p class="info-list">Übe das Alphabet: <b>A B C D E F G H I J K L M N O P Q R S T U V W X Y Z</b>. Welcher Buchstabe kommt wo — und wie ordnet man Wörter im Wörterbuch?</p>
+      <div class="mode-toggle" id="abcLevel">
+        <button type="button" data-lvl="1" class="active">Leicht</button>
+        <button type="button" data-lvl="2">Schwer</button>
+      </div>
+      <div class="scorebar"><span>Punkte: <b id="abc-score">0</b></span><span id="abc-progress-label">Frage <b id="abc-num">1</b>/20</span></div>
+      <div class="progress-outer"><div class="progress-inner" id="abc-progress"></div></div>
+      <div id="abc-quiz-body">
+        <div class="question-row"><div class="question-box" id="abc-question">...</div><button type="button" class="tts-btn" id="abc-tts-btn" aria-label="Frage vorlesen">🔊</button></div>
+        <button type="button" class="hint-btn" id="abc-hint-btn">💡 Tipp</button>
+        <div class="hint-text" id="abc-hint-text" style="display:none"></div>
+        <div class="options" id="abc-options"></div>
+        <div class="feedback" id="abc-feedback"></div>
+        <button class="next-btn" id="abc-next" style="display:none">Weiter ➡️</button>
+      </div>
+      <div class="round-complete" id="abc-complete" style="display:none">
+        <div class="confetti" id="abc-confetti"></div>
+        <h3>🎉 Runde geschafft!</h3>
+        <p id="abc-complete-text"></p>
+        <p class="best-note" id="abc-best-note" style="display:none"></p>
+        <div class="stars" id="abc-stars"></div>
+        <button class="next-btn" id="abc-restart">Nochmal spielen 🔄</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- GROSS-/KLEINSCHREIBUNG -->
+  <section class="section" id="sec-case">
+    <div class="card">
+      <h2>🔠 Groß- oder Kleinschreibung</h2>
+      <p class="info-list">Nomen (Namenwörter) werden <b>großgeschrieben</b>. Frag dich: Kann ich „der/die/das" davorsetzen? Dann ist es ein Nomen!</p>
+      <div class="scorebar"><span>Punkte: <b id="case-score">0</b></span><span id="case-progress-label">Frage <b id="case-num">1</b>/15</span></div>
+      <div class="progress-outer"><div class="progress-inner" id="case-progress"></div></div>
+      <div id="case-quiz-body">
+        <div class="question-row"><div class="question-box small-text" id="case-question">...</div><button type="button" class="tts-btn" id="case-tts-btn" aria-label="Frage vorlesen">🔊</button></div>
+        <button type="button" class="hint-btn" id="case-hint-btn">💡 Tipp</button>
+        <div class="hint-text" id="case-hint-text" style="display:none"></div>
+        <div class="options" id="case-options"></div>
+        <div class="feedback" id="case-feedback"></div>
+        <button class="next-btn" id="case-next" style="display:none">Weiter ➡️</button>
+      </div>
+      <div class="round-complete" id="case-complete" style="display:none">
+        <div class="confetti" id="case-confetti"></div>
+        <h3>🎉 Runde geschafft!</h3>
+        <p id="case-complete-text"></p>
+        <p class="best-note" id="case-best-note" style="display:none"></p>
+        <div class="stars" id="case-stars"></div>
+        <button class="next-btn" id="case-restart">Nochmal spielen 🔄</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- WORTARTEN -->
+  <section class="section" id="sec-wortart">
+    <div class="card">
+      <h2>🎨 Wortarten</h2>
+      <p class="info-list">Ist das Wort ein <b>Nomen</b> (Namenwort), ein <b>Verb</b> (Tuwort) oder ein <b>Adjektiv</b> (Wiewort)?</p>
+      <div class="fresch-legend">
+        <span class="fresch-chip nomen">🔴 Nomen</span>
+        <span class="fresch-chip verb">🔵 Verb</span>
+        <span class="fresch-chip adjektiv">🟢 Adjektiv</span>
+      </div>
+      <div class="scorebar"><span>Punkte: <b id="wortart-score">0</b></span><span id="wortart-progress-label">Frage <b id="wortart-num">1</b>/15</span></div>
+      <div class="progress-outer"><div class="progress-inner" id="wortart-progress"></div></div>
+      <div id="wortart-quiz-body">
+        <div class="question-row"><div class="question-box" id="wortart-question">...</div><button type="button" class="tts-btn" id="wortart-tts-btn" aria-label="Frage vorlesen">🔊</button></div>
+        <button type="button" class="hint-btn" id="wortart-hint-btn">💡 Tipp</button>
+        <div class="hint-text" id="wortart-hint-text" style="display:none"></div>
+        <div class="options options-3col" id="wortart-options"></div>
+        <div class="feedback" id="wortart-feedback"></div>
+        <button class="next-btn" id="wortart-next" style="display:none">Weiter ➡️</button>
+      </div>
+      <div class="round-complete" id="wortart-complete" style="display:none">
+        <div class="confetti" id="wortart-confetti"></div>
+        <h3>🎉 Runde geschafft!</h3>
+        <p id="wortart-complete-text"></p>
+        <p class="best-note" id="wortart-best-note" style="display:none"></p>
+        <div class="stars" id="wortart-stars"></div>
+        <button class="next-btn" id="wortart-restart">Nochmal spielen 🔄</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- SILBEN -->
+  <section class="section" id="sec-silbe">
+    <div class="card">
+      <h2>👏 Silben klatschen</h2>
+      <p class="info-list">Klatsche das Wort in Silben — wie oft klatschst du?</p>
+      <div class="scorebar"><span>Punkte: <b id="silbe-score">0</b></span><span id="silbe-progress-label">Frage <b id="silbe-num">1</b>/15</span></div>
+      <div class="progress-outer"><div class="progress-inner" id="silbe-progress"></div></div>
+      <div id="silbe-quiz-body">
+        <div class="question-row"><div class="question-box" id="silbe-question">...</div><button type="button" class="tts-btn" id="silbe-tts-btn" aria-label="Frage vorlesen">🔊</button></div>
+        <button type="button" class="hint-btn" id="silbe-hint-btn">💡 Tipp</button>
+        <div class="hint-text" id="silbe-hint-text" style="display:none"></div>
+        <div class="options" id="silbe-options"></div>
+        <div class="feedback" id="silbe-feedback"></div>
+        <button class="next-btn" id="silbe-next" style="display:none">Weiter ➡️</button>
+      </div>
+      <div class="round-complete" id="silbe-complete" style="display:none">
+        <div class="confetti" id="silbe-confetti"></div>
+        <h3>🎉 Runde geschafft!</h3>
+        <p id="silbe-complete-text"></p>
+        <p class="best-note" id="silbe-best-note" style="display:none"></p>
+        <div class="stars" id="silbe-stars"></div>
+        <button class="next-btn" id="silbe-restart">Nochmal spielen 🔄</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ß ODER SS -->
+  <section class="section" id="sec-sz">
+    <div class="card">
+      <h2>📏 ß oder ss?</h2>
+      <p class="info-list">Die Regel: Nach einem <b>kurzen</b> Vokal schreibt man <b>ss</b> (Wasser). Nach einem <b>langen</b> Vokal oder Doppellaut (au, ei, eu) schreibt man <b>ß</b> (Straße, weiß).</p>
+      <div class="scorebar"><span>Punkte: <b id="sz-score">0</b></span><span id="sz-progress-label">Frage <b id="sz-num">1</b>/15</span></div>
+      <div class="progress-outer"><div class="progress-inner" id="sz-progress"></div></div>
+      <div id="sz-quiz-body">
+        <div class="question-row"><div class="question-box" id="sz-question">...</div><button type="button" class="tts-btn" id="sz-tts-btn" aria-label="Frage vorlesen">🔊</button></div>
+        <button type="button" class="hint-btn" id="sz-hint-btn">💡 Tipp</button>
+        <div class="hint-text" id="sz-hint-text" style="display:none"></div>
+        <div class="options" id="sz-options"></div>
+        <div class="feedback" id="sz-feedback"></div>
+        <button class="next-btn" id="sz-next" style="display:none">Weiter ➡️</button>
+      </div>
+      <div class="round-complete" id="sz-complete" style="display:none">
+        <div class="confetti" id="sz-confetti"></div>
+        <h3>🎉 Runde geschafft!</h3>
+        <p id="sz-complete-text"></p>
+        <p class="best-note" id="sz-best-note" style="display:none"></p>
+        <div class="stars" id="sz-stars"></div>
+        <button class="next-btn" id="sz-restart">Nochmal spielen 🔄</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- VERLÄNGERUNGSSTRATEGIE -->
+  <section class="section" id="sec-verlaeng">
+    <div class="card">
+      <h2>📣 Verlängern</h2>
+      <p class="info-list">Am Wortende hört man d/t, g/k und b/p oft gleich. Trick: Wort <b>verlängern</b> (Mehrzahl bilden) — dann hörst du den richtigen Buchstaben! Hund → Hunde.</p>
+      <div class="scorebar"><span>Punkte: <b id="verlaeng-score">0</b></span><span id="verlaeng-progress-label">Frage <b id="verlaeng-num">1</b>/13</span></div>
+      <div class="progress-outer"><div class="progress-inner" id="verlaeng-progress"></div></div>
+      <div id="verlaeng-quiz-body">
+        <div class="question-row"><div class="question-box" id="verlaeng-question">...</div><button type="button" class="tts-btn" id="verlaeng-tts-btn" aria-label="Frage vorlesen">🔊</button></div>
+        <button type="button" class="hint-btn" id="verlaeng-hint-btn">💡 Tipp</button>
+        <div class="hint-text" id="verlaeng-hint-text" style="display:none"></div>
+        <div class="options" id="verlaeng-options"></div>
+        <div class="feedback" id="verlaeng-feedback"></div>
+        <button class="next-btn" id="verlaeng-next" style="display:none">Weiter ➡️</button>
+      </div>
+      <div class="round-complete" id="verlaeng-complete" style="display:none">
+        <div class="confetti" id="verlaeng-confetti"></div>
+        <h3>🎉 Runde geschafft!</h3>
+        <p id="verlaeng-complete-text"></p>
+        <p class="best-note" id="verlaeng-best-note" style="display:none"></p>
+        <div class="stars" id="verlaeng-stars"></div>
+        <button class="next-btn" id="verlaeng-restart">Nochmal spielen 🔄</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- RECHTSCHREIBUNG -->
+  <section class="section" id="sec-sp">
+    <div class="card">
+      <h2>✏️ Rechtschreibung</h2>
+      <p class="info-list">Zwei Schreibweisen, nur eine ist richtig — welche?</p>
+      <div class="mode-toggle" id="spLevel">
+        <button type="button" data-lvl="1" class="active">Leicht</button>
+        <button type="button" data-lvl="2">Schwer</button>
+      </div>
+      <div class="scorebar"><span>Punkte: <b id="sp-score">0</b></span><span id="sp-progress-label">Frage <b id="sp-num">1</b>/15</span></div>
+      <div class="progress-outer"><div class="progress-inner" id="sp-progress"></div></div>
+      <div id="sp-quiz-body">
+        <div class="question-box" id="sp-question">Welches Wort ist richtig geschrieben?</div>
+        <button type="button" class="hint-btn" id="sp-hint-btn">💡 Tipp</button>
+        <div class="hint-text" id="sp-hint-text" style="display:none"></div>
+        <div class="options" id="sp-options"></div>
+        <div class="feedback" id="sp-feedback"></div>
+        <button class="next-btn" id="sp-next" style="display:none">Weiter ➡️</button>
+      </div>
+      <div class="round-complete" id="sp-complete" style="display:none">
+        <div class="confetti" id="sp-confetti"></div>
+        <h3>🎉 Runde geschafft!</h3>
+        <p id="sp-complete-text"></p>
+        <p class="best-note" id="sp-best-note" style="display:none"></p>
+        <div class="stars" id="sp-stars"></div>
+        <button class="next-btn" id="sp-restart">Nochmal spielen 🔄</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- DIKTAT -->
+  <section class="section" id="sec-diktat">
+    <div class="card">
+      <h2>🎧 Diktat</h2>
+      <p class="info-list">Höre genau zu und wähle die richtige Schreibweise — ohne das Wort vorher zu sehen!</p>
+      <div class="scorebar"><span>Punkte: <b id="diktat-score">0</b></span><span id="diktat-progress-label">Frage <b id="diktat-num">1</b>/15</span></div>
+      <div class="progress-outer"><div class="progress-inner" id="diktat-progress"></div></div>
+      <div id="diktat-quiz-body">
+        <div class="question-box" id="diktat-question" style="display:none"></div>
+        <button type="button" class="tts-btn-big" id="diktat-tts-btn">🔊 Wort nochmal hören</button>
+        <button type="button" class="hint-btn" id="diktat-hint-btn">💡 Tipp</button>
+        <div class="hint-text" id="diktat-hint-text" style="display:none"></div>
+        <div class="options" id="diktat-options"></div>
+        <div class="feedback" id="diktat-feedback"></div>
+        <button class="next-btn" id="diktat-next" style="display:none">Weiter ➡️</button>
+      </div>
+      <div class="round-complete" id="diktat-complete" style="display:none">
+        <div class="confetti" id="diktat-confetti"></div>
+        <h3>🎉 Runde geschafft!</h3>
+        <p id="diktat-complete-text"></p>
+        <p class="best-note" id="diktat-best-note" style="display:none"></p>
+        <div class="stars" id="diktat-stars"></div>
+        <button class="next-btn" id="diktat-restart">Nochmal spielen 🔄</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- LÜCKENWÖRTER -->
+  <section class="section" id="sec-fill">
+    <div class="card">
+      <h2>🧩 Lückenwörter</h2>
+      <p class="info-list">Welcher Buchstabe fehlt im Wort? Setze ihn an die richtige Stelle.</p>
+      <div class="mode-toggle" id="fillLevel">
+        <button type="button" data-lvl="1" class="active">Leicht</button>
+        <button type="button" data-lvl="2">Schwer</button>
+      </div>
+      <div class="scorebar"><span>Punkte: <b id="fill-score">0</b></span><span id="fill-progress-label">Frage <b id="fill-num">1</b>/15</span></div>
+      <div class="progress-outer"><div class="progress-inner" id="fill-progress"></div></div>
+      <div id="fill-quiz-body">
+        <div class="question-row"><div class="question-box" id="fill-question">...</div><button type="button" class="tts-btn" id="fill-tts-btn" aria-label="Frage vorlesen">🔊</button></div>
+        <button type="button" class="hint-btn" id="fill-hint-btn">💡 Tipp</button>
+        <div class="hint-text" id="fill-hint-text" style="display:none"></div>
+        <div class="options" id="fill-options"></div>
+        <div class="feedback" id="fill-feedback"></div>
+        <button class="next-btn" id="fill-next" style="display:none">Weiter ➡️</button>
+      </div>
+      <div class="round-complete" id="fill-complete" style="display:none">
+        <div class="confetti" id="fill-confetti"></div>
+        <h3>🎉 Runde geschafft!</h3>
+        <p id="fill-complete-text"></p>
+        <p class="best-note" id="fill-best-note" style="display:none"></p>
+        <div class="stars" id="fill-stars"></div>
+        <button class="next-btn" id="fill-restart">Nochmal spielen 🔄</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- REIMWÖRTER -->
+  <section class="section" id="sec-rhyme">
+    <div class="card">
+      <h2>🎵 Reimwörter</h2>
+      <p class="info-list">Welches Wort reimt sich auf das gezeigte Wort? Sprich beide Wörter laut — hören sie sich am Ende gleich an?</p>
+      <div class="mode-toggle" id="rhymeLevel">
+        <button type="button" data-lvl="1" class="active">Leicht</button>
+        <button type="button" data-lvl="2">Schwer</button>
+      </div>
+      <div class="scorebar"><span>Punkte: <b id="rhyme-score">0</b></span><span id="rhyme-progress-label">Frage <b id="rhyme-num">1</b>/15</span></div>
+      <div class="progress-outer"><div class="progress-inner" id="rhyme-progress"></div></div>
+      <div id="rhyme-quiz-body">
+        <div class="question-row"><div class="question-box" id="rhyme-question">...</div><button type="button" class="tts-btn" id="rhyme-tts-btn" aria-label="Frage vorlesen">🔊</button></div>
+        <button type="button" class="hint-btn" id="rhyme-hint-btn">💡 Tipp</button>
+        <div class="hint-text" id="rhyme-hint-text" style="display:none"></div>
+        <div class="options" id="rhyme-options"></div>
+        <div class="feedback" id="rhyme-feedback"></div>
+        <button class="next-btn" id="rhyme-next" style="display:none">Weiter ➡️</button>
+      </div>
+      <div class="round-complete" id="rhyme-complete" style="display:none">
+        <div class="confetti" id="rhyme-confetti"></div>
+        <h3>🎉 Runde geschafft!</h3>
+        <p id="rhyme-complete-text"></p>
+        <p class="best-note" id="rhyme-best-note" style="display:none"></p>
+        <div class="stars" id="rhyme-stars"></div>
+        <button class="next-btn" id="rhyme-restart">Nochmal spielen 🔄</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- GEMISCHT -->
+  <section class="section" id="sec-mix">
+    <div class="card">
+      <h2>🔀 Alles gemischt</h2>
+      <p class="info-list">Alle Übungen bunt durcheinander: ABC, Groß/Klein, Wortarten, Silben, ß/ss, Verlängern, Rechtschreibung, Diktat, Lücken- und Reimwörter.</p>
+    </div>
+    <div class="card">
+      <h3>Quiz: Gemischt</h3>
+      <div class="scorebar"><span>Punkte: <b id="mix-score">0</b></span><span id="mix-progress-label">Frage <b id="mix-num">1</b>/20</span></div>
+      <div class="progress-outer"><div class="progress-inner" id="mix-progress"></div></div>
+      <div id="mix-quiz-body">
+        <div class="question-row"><div class="question-box" id="mix-question">...</div><button type="button" class="tts-btn" id="mix-tts-btn" aria-label="Frage vorlesen">🔊</button></div>
+        <button type="button" class="hint-btn" id="mix-hint-btn">💡 Tipp</button>
+        <div class="hint-text" id="mix-hint-text" style="display:none"></div>
+        <div class="options" id="mix-options"></div>
+        <div class="feedback" id="mix-feedback"></div>
+        <button class="next-btn" id="mix-next" style="display:none">Weiter ➡️</button>
+      </div>
+      <div class="round-complete" id="mix-complete" style="display:none">
+        <div class="confetti" id="mix-confetti"></div>
+        <h3>🎉 Runde geschafft!</h3>
+        <p id="mix-complete-text"></p>
+        <p class="best-note" id="mix-best-note" style="display:none"></p>
+        <div class="stars" id="mix-stars"></div>
+        <button class="next-btn" id="mix-restart">Nochmal spielen 🔄</button>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<section class="parent-section">
+  <button type="button" id="parent-toggle" class="parent-toggle-btn">🔒 Für Eltern: Kontrolle anzeigen</button>
+  <div id="parent-panel-body" class="parent-panel" style="display:none">
+    <p class="parent-subhead">🏆 Bestergebnisse</p>
+    <div class="best-list" id="parent-best-list"></div>
+    <p class="parent-subhead">Sitzungs-Protokoll</p>
+    <p class="parent-hint">Hier siehst du alle Fragen &amp; Antworten aus der aktuellen Sitzung (neueste zuerst).</p>
+    <div id="parent-log-list"></div>
+    <button type="button" class="parent-clear-btn" id="parent-clear-btn">Protokoll leeren</button>
+  </div>
+</section>
+
+<script>
+/* ---------- Tab-Navigation (merkt sich zuletzt geöffneten Bereich) ---------- */
+const tabs = [
+  {id:'sec-abc', icon:'🔤', label:'ABC-Wörter'},
+  {id:'sec-case', icon:'🔠', label:'Groß/Klein'},
+  {id:'sec-wortart', icon:'🎨', label:'Wortarten'},
+  {id:'sec-silbe', icon:'👏', label:'Silben'},
+  {id:'sec-sz', icon:'📏', label:'ß oder ss'},
+  {id:'sec-verlaeng', icon:'📣', label:'Verlängern'},
+  {id:'sec-sp', icon:'✏️', label:'Rechtschr.'},
+  {id:'sec-diktat', icon:'🎧', label:'Diktat'},
+  {id:'sec-fill', icon:'🧩', label:'Lücken'},
+  {id:'sec-rhyme', icon:'🎵', label:'Reime'},
+  {id:'sec-mix', icon:'🔀', label:'Gemischt'}
+];
+let lastTabId = null;
+try{ lastTabId = localStorage.getItem('deutschdetektiv-lasttab'); }catch(e){}
+const startIndex = Math.max(0, tabs.findIndex(t=>t.id===lastTabId));
+const nav = document.getElementById('tabnav');
+tabs.forEach((t,i)=>{
+  const b = document.createElement('button');
+  b.innerHTML = `<span class="nav-icon">${t.icon}</span><span class="nav-label">${t.label}</span>`;
+  if(i===startIndex) b.classList.add('active');
+  b.onclick = ()=>{
+    document.querySelectorAll('nav button').forEach(x=>x.classList.remove('active'));
+    document.querySelectorAll('.section').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active');
+    document.getElementById(t.id).classList.add('active');
+    try{ localStorage.setItem('deutschdetektiv-lasttab', t.id); }catch(e){}
+  };
+  nav.appendChild(b);
+});
+document.getElementById(tabs[startIndex].id).classList.add('active');
+
+/* ---------- Sound- & Vibrations-Feedback ---------- */
+let audioCtx = null;
+function ensureAudioCtx(){
+  if(!audioCtx){ try{ audioCtx = new (window.AudioContext||window.webkitAudioContext)(); }catch(e){} }
+  return audioCtx;
+}
+function playTone(freq, duration, type){
+  const ctx = ensureAudioCtx();
+  if(!ctx) return;
+  try{
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = type || 'sine';
+    osc.frequency.value = freq;
+    gain.gain.setValueAtTime(0.15, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + duration);
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.start();
+    osc.stop(ctx.currentTime + duration);
+  }catch(e){}
+}
+function feedbackCorrect(){
+  playTone(880, 0.15);
+  setTimeout(()=>playTone(1175, 0.18), 110);
+  if(navigator.vibrate){ try{ navigator.vibrate(35); }catch(e){} }
+}
+function feedbackWrong(){
+  playTone(220, 0.28, 'triangle');
+  if(navigator.vibrate){ try{ navigator.vibrate([50,40,50]); }catch(e){} }
+}
+function feedbackRoundComplete(){
+  playTone(660, 0.13);
+  setTimeout(()=>playTone(880,0.13), 100);
+  setTimeout(()=>playTone(1175,0.22), 200);
+  if(navigator.vibrate){ try{ navigator.vibrate([30,30,30,30,60]); }catch(e){} }
+}
+function launchConfetti(containerId){
+  const el = document.getElementById(containerId);
+  if(!el) return;
+  el.innerHTML = '';
+  const emojis = ['🎉','⭐','✨','🎊','🌟'];
+  for(let i=0;i<22;i++){
+    const span = document.createElement('span');
+    span.className = 'confetti-piece';
+    span.textContent = emojis[Math.floor(Math.random()*emojis.length)];
+    span.style.left = (Math.random()*94)+'%';
+    span.style.animationDelay = (Math.random()*0.5)+'s';
+    span.style.fontSize = (1+Math.random()*0.8)+'rem';
+    el.appendChild(span);
+  }
+}
+
+/* ---------- Sprachausgabe ---------- */
+function speak(text){
+  try{
+    if(!('speechSynthesis' in window) || !text) return;
+    window.speechSynthesis.cancel();
+    const utter = new SpeechSynthesisUtterance(text);
+    utter.lang = 'de-DE';
+    utter.rate = 0.9;
+    window.speechSynthesis.speak(utter);
+  }catch(e){}
+}
+document.addEventListener('click', (e)=>{
+  const btn = e.target.closest('.tts-btn, .tts-btn-big');
+  if(!btn) return;
+  const prefix = btn.id.replace('-tts-btn','');
+  const qEl = document.getElementById(prefix+'-question');
+  if(!qEl) return;
+  const audioOverride = qEl.getAttribute('data-audio');
+  speak(audioOverride || qEl.textContent || '');
+});
+
+function shuffle(arr){
+  const a=[...arr];
+  for(let i=a.length-1;i>0;i--){
+    const j=Math.floor(Math.random()*(i+1));
+    [a[i],a[j]]=[a[j],a[i]];
+  }
+  return a;
+}
+function pickWrongOptions(correctIndex, pool, count){
+  const opts=new Set();
+  while(opts.size<count){
+    const idx=Math.floor(Math.random()*pool.length);
+    if(idx!==correctIndex) opts.add(idx);
+  }
+  return [...opts];
+}
+
+/* ============================================================
+   ELTERN-KONTROLLE (Sitzungs-Protokoll + persistente Bestergebnisse)
+   ============================================================ */
+const parentLog = [];
+const PARENT_LOG_MAX = 40;
+function logParentEntry(moduleLabel, questionText, correctLabel, childLabel, isCorrect){
+  parentLog.unshift({moduleLabel, questionText, correctLabel, childLabel, isCorrect});
+  if(parentLog.length > PARENT_LOG_MAX) parentLog.length = PARENT_LOG_MAX;
+  renderParentLog();
+}
+function renderParentLog(){
+  const listEl = document.getElementById('parent-log-list');
+  if(!listEl) return;
+  if(parentLog.length===0){
+    listEl.innerHTML = '<p class="parent-empty">Noch keine beantworteten Fragen in dieser Sitzung.</p>';
+    return;
+  }
+  listEl.innerHTML = parentLog.map(e=>`
+    <div class="parent-entry ${e.isCorrect?'ok':'no'}">
+      <div class="parent-entry-top"><span>${e.moduleLabel}</span><span>${e.isCorrect?'✅ richtig':'❌ falsch'}</span></div>
+      <div class="parent-question">${e.questionText}</div>
+      <div class="parent-answers">Antwort des Kindes: <b>${e.childLabel}</b>${e.isCorrect?'':` &middot; Richtig wäre: <b>${e.correctLabel}</b>`}</div>
+    </div>
+  `).join('');
+}
+renderParentLog();
+document.getElementById('parent-toggle').onclick = ()=>{
+  const panel = document.getElementById('parent-panel-body');
+  const btn = document.getElementById('parent-toggle');
+  const hidden = panel.style.display === 'none';
+  panel.style.display = hidden ? 'block' : 'none';
+  btn.textContent = hidden ? '🔒 Für Eltern: Kontrolle ausblenden' : '🔒 Für Eltern: Kontrolle anzeigen';
+  if(hidden) renderBestScores();
+};
+document.getElementById('parent-clear-btn').onclick = ()=>{
+  parentLog.length = 0;
+  renderParentLog();
+};
+
+const BEST_EXERCISES = [
+  {prefix:'abc', icon:'🔤', label:'ABC-Wörter', total:20},
+  {prefix:'case', icon:'🔠', label:'Groß/Klein', total:15},
+  {prefix:'wortart', icon:'🎨', label:'Wortarten', total:15},
+  {prefix:'silbe', icon:'👏', label:'Silben', total:15},
+  {prefix:'sz', icon:'📏', label:'ß oder ss', total:15},
+  {prefix:'verlaeng', icon:'📣', label:'Verlängern', total:13},
+  {prefix:'sp', icon:'✏️', label:'Rechtschreibung', total:15},
+  {prefix:'diktat', icon:'🎧', label:'Diktat', total:15},
+  {prefix:'fill', icon:'🧩', label:'Lückenwörter', total:15},
+  {prefix:'rhyme', icon:'🎵', label:'Reimwörter', total:15},
+  {prefix:'mix', icon:'🔀', label:'Gemischt', total:20}
+];
+function getBest(prefix){
+  try{ return parseInt(localStorage.getItem('deutschdetektiv-best-'+prefix)||'0',10); }catch(e){ return 0; }
+}
+function setBestIfHigher(prefix, score){
+  const cur = getBest(prefix);
+  if(score > cur){
+    try{ localStorage.setItem('deutschdetektiv-best-'+prefix, String(score)); }catch(e){}
+    return true;
+  }
+  return false;
+}
+function renderBestScores(){
+  const el = document.getElementById('parent-best-list');
+  if(!el) return;
+  el.innerHTML = BEST_EXERCISES.map(it=>{
+    const best = getBest(it.prefix);
+    return `<div class="best-entry"><span>${it.icon} ${it.label}</span><b>${best>0 ? best+'/'+it.total : '–'}</b></div>`;
+  }).join('');
+}
+renderBestScores();
+
+/* ============================================================
+   GENERIC QUIZ ENGINE
+   ============================================================ */
+function makeQuiz(cfg){
+  let score = 0, qNum = 1, currentAnswerLocked = false;
+  let usedKeys = new Set();
+  let wrongQueue = [];
+  let reviewIndex = 0;
+  let inReview = false;
+  const scoreEl = document.getElementById(cfg.prefix+'-score');
+  const progressLabelEl = document.getElementById(cfg.prefix+'-progress-label');
+  const progressBarEl = document.getElementById(cfg.prefix+'-progress');
+  const qEl = document.getElementById(cfg.prefix+'-question');
+  const optEl = document.getElementById(cfg.prefix+'-options');
+  const fbEl = document.getElementById(cfg.prefix+'-feedback');
+  const nextBtn = document.getElementById(cfg.prefix+'-next');
+  const hintBtn = document.getElementById(cfg.prefix+'-hint-btn');
+  const hintTextEl = document.getElementById(cfg.prefix+'-hint-text');
+  const quizBodyEl = document.getElementById(cfg.prefix+'-quiz-body');
+  const completeEl = document.getElementById(cfg.prefix+'-complete');
+  const completeTextEl = document.getElementById(cfg.prefix+'-complete-text');
+  const bestNoteEl = document.getElementById(cfg.prefix+'-best-note');
+  const starsEl = document.getElementById(cfg.prefix+'-stars');
+  const restartBtn = document.getElementById(cfg.prefix+'-restart');
+
+  if(hintBtn){
+    hintBtn.onclick = ()=>{
+      hintTextEl.style.display = hintTextEl.style.display === 'none' ? 'block' : 'none';
+    };
+  }
+
+  function genUniqueQuestion(){
+    let q, attempts = 0;
+    do{
+      q = cfg.genQuestion();
+      attempts++;
+    } while(usedKeys.has(q.key || q.text) && attempts < 60);
+    usedKeys.add(q.key || q.text);
+    return q;
+  }
+
+  function updateProgress(){
+    if(progressLabelEl){
+      if(inReview){
+        progressLabelEl.innerHTML = `🔁 Wiederholung <b>${reviewIndex+1}</b>/${wrongQueue.length}`;
+      } else {
+        progressLabelEl.innerHTML = `Frage <b id="${cfg.prefix}-num">${qNum}</b>/${cfg.total}`;
+      }
+    }
+    if(progressBarEl){
+      const pct = inReview
+        ? Math.round(((reviewIndex+1)/wrongQueue.length)*100)
+        : Math.round((qNum/cfg.total)*100);
+      progressBarEl.style.width = pct + '%';
+      progressBarEl.classList.toggle('review', inReview);
+    }
+  }
+
+  function displayQuestion(q){
+    currentAnswerLocked = false;
+    fbEl.textContent = '';
+    fbEl.className = 'feedback';
+    nextBtn.style.display = 'none';
+    updateProgress();
+    qEl.textContent = q.text;
+    qEl.classList.toggle('small-text', q.text.length > 26);
+    qEl.removeAttribute('data-audio');
+    if(cfg.onQuestion) cfg.onQuestion(q);
+    if(hintTextEl){
+      hintTextEl.textContent = cfg.hint ? cfg.hint(q) : '';
+      hintTextEl.style.display = 'none';
+    }
+    optEl.innerHTML = '';
+    const correctOpt = q.options.find(o=>o.correct);
+    q.options.forEach((opt)=>{
+      const b = document.createElement('button');
+      b.textContent = opt.label;
+      b.onclick = ()=>{
+        if(currentAnswerLocked) return;
+        currentAnswerLocked = true;
+        if(opt.correct){
+          b.classList.add('correct');
+          fbEl.textContent = '🎉 Richtig!';
+          fbEl.className = 'feedback ok';
+          if(!inReview){
+            score++;
+            scoreEl.textContent = score;
+          }
+          feedbackCorrect();
+        } else {
+          b.classList.add('wrong');
+          fbEl.textContent = '❌ Nicht ganz — die richtige Antwort ist markiert.';
+          fbEl.className = 'feedback no';
+          [...optEl.children].forEach(c=>{
+            if(c.textContent === correctOpt.label) c.classList.add('correct');
+          });
+          if(hintTextEl && hintTextEl.textContent){
+            hintTextEl.style.display = 'block';
+          }
+          if(!inReview){
+            wrongQueue.push(q);
+          }
+          feedbackWrong();
+        }
+        const questionForParent = cfg.parentQuestionText ? cfg.parentQuestionText(q) : q.text;
+        logParentEntry(cfg.moduleLabel || cfg.prefix, questionForParent, correctOpt.label, opt.label, !!opt.correct);
+        nextBtn.style.display = 'block';
+      };
+      optEl.appendChild(b);
+    });
+  }
+
+  function renderNext(){
+    inReview = false;
+    displayQuestion(genUniqueQuestion());
+  }
+  function renderReview(){
+    inReview = true;
+    displayQuestion(wrongQueue[reviewIndex]);
+  }
+
+  function showComplete(){
+    quizBodyEl.style.display = 'none';
+    completeEl.style.display = 'block';
+    const pct = score / cfg.total;
+    const starCount = pct >= 0.9 ? 3 : (pct >= 0.6 ? 2 : 1);
+    starsEl.textContent = '⭐'.repeat(starCount) + '☆'.repeat(3-starCount);
+    completeTextEl.textContent = `Du hast ${score} von ${cfg.total} richtig beantwortet!`;
+    const isNewBest = setBestIfHigher(cfg.prefix, score);
+    if(bestNoteEl){
+      if(isNewBest){
+        bestNoteEl.textContent = '🏆 Neues Bestergebnis!';
+        bestNoteEl.style.display = 'block';
+      } else {
+        bestNoteEl.style.display = 'none';
+      }
+    }
+    renderBestScores();
+    launchConfetti(cfg.prefix+'-confetti');
+    feedbackRoundComplete();
+  }
+
+  nextBtn.onclick = ()=>{
+    if(inReview){
+      reviewIndex++;
+      if(reviewIndex < wrongQueue.length){
+        renderReview();
+      } else {
+        showComplete();
+      }
+      return;
+    }
+    qNum++;
+    if(qNum > cfg.total){
+      if(wrongQueue.length > 0){
+        reviewIndex = 0;
+        renderReview();
+      } else {
+        showComplete();
+      }
+    } else {
+      renderNext();
+    }
+  };
+
+  if(restartBtn){
+    restartBtn.onclick = ()=>{
+      qNum = 1;
+      score = 0;
+      usedKeys = new Set();
+      wrongQueue = [];
+      reviewIndex = 0;
+      inReview = false;
+      scoreEl.textContent = 0;
+      completeEl.style.display = 'none';
+      quizBodyEl.style.display = 'block';
+      renderNext();
+    };
+  }
+
+  renderNext();
+}
+
+/* ============================================================
+   DATEN
+   ============================================================ */
+const ALPHABET = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"];
+const WORDS_ABC = ["Apfel","Ameise","Ball","Baum","Banane","Computer","Drache","Ente","Elefant","Fisch","Feder",
+  "Garten","Giraffe","Haus","Hund","Igel","Insel","Junge","Katze","Kerze","Löwe","Lampe","Maus","Mond","Nase",
+  "Nest","Orange","Ofen","Pferd","Puppe","Qualle","Rose","Regen","Sonne","Schule","Turm","Tiger","Uhr","Vogel",
+  "Wolke","Wald","Zug","Zebra"];
+
+/* Groß-/Kleinschreibung: Sätze mit Nomen-Lücke (level 1 = einfache konkrete Nomen, level 2 = auch nominalisierte Verben) */
+const CASE_SENTENCES = [
+  {sentence:"Der ___ bellt laut.", correct:"Hund", wrong:"hund", level:1},
+  {sentence:"Die ___ scheint heute.", correct:"Sonne", wrong:"sonne", level:1},
+  {sentence:"Ich lese ein ___.", correct:"Buch", wrong:"buch", level:1},
+  {sentence:"Der ___ fliegt hoch.", correct:"Vogel", wrong:"vogel", level:1},
+  {sentence:"Wir gehen in die ___.", correct:"Schule", wrong:"schule", level:1},
+  {sentence:"Das ___ ist rot.", correct:"Auto", wrong:"auto", level:1},
+  {sentence:"Die ___ miaut.", correct:"Katze", wrong:"katze", level:1},
+  {sentence:"Der ___ ist grün.", correct:"Baum", wrong:"baum", level:1},
+  {sentence:"Ich esse einen ___.", correct:"Apfel", wrong:"apfel", level:1},
+  {sentence:"Der ___ schwimmt im Teich.", correct:"Fisch", wrong:"fisch", level:1},
+  {sentence:"Wir spielen mit dem ___.", correct:"Ball", wrong:"ball", level:1},
+  {sentence:"Der ___ scheint hell.", correct:"Mond", wrong:"mond", level:1},
+  {sentence:"Die ___ blüht im Garten.", correct:"Rose", wrong:"rose", level:1},
+  {sentence:"Ich trinke das ___.", correct:"Wasser", wrong:"wasser", level:1},
+  {sentence:"Wir wohnen in einem ___.", correct:"Haus", wrong:"haus", level:1},
+  {sentence:"Das ___ schläft.", correct:"Kind", wrong:"kind", level:1},
+  {sentence:"Der ___ jagt die Maus.", correct:"Fuchs", wrong:"fuchs", level:1},
+  {sentence:"Die ___ fährt schnell.", correct:"Bahn", wrong:"bahn", level:1},
+  {sentence:"Der ___ steht im Garten.", correct:"Zwerg", wrong:"zwerg", level:1},
+  {sentence:"Die ___ singen im Baum.", correct:"Vögel", wrong:"vögel", level:1},
+  {sentence:"Das ___ macht Spaß.", correct:"Lesen", wrong:"lesen", level:2},
+  {sentence:"Ich möchte gerne ___.", correct:"schwimmen", wrong:"Schwimmen", level:2},
+  {sentence:"Er kann sehr gut ___.", correct:"singen", wrong:"Singen", level:2},
+  {sentence:"Das ___ im Chor macht Freude.", correct:"Singen", wrong:"singen", level:2},
+  {sentence:"Wir gehen heute ___.", correct:"schwimmen", wrong:"Schwimmen", level:2},
+  {sentence:"Das ___ fällt ihr leicht.", correct:"Rechnen", wrong:"rechnen", level:2}
+];
+
+/* Wortarten (FRESCH-Farben): Nomen=rot, Verb=blau, Adjektiv=grün */
+const WORTART_WORDS = [
+  ...["Hund","Baum","Schule","Auto","Katze","Sonne","Blume","Tisch","Buch","Kind","Vogel","Fenster","Garten","Wasser","Apfel"].map(w=>({word:w, type:'Nomen'})),
+  ...["laufen","springen","lachen","singen","spielen","schlafen","essen","trinken","lesen","schreiben","malen","tanzen","schwimmen","fliegen","rennen"].map(w=>({word:w, type:'Verb'})),
+  ...["schnell","groß","klein","bunt","laut","leise","schön","alt","neu","kalt","warm","rund","weich","hart","süß"].map(w=>({word:w, type:'Adjektiv'}))
+];
+
+/* Silben klatschen: Wort, Silbentrennung, Anzahl */
+const SYLLABLE_WORDS = [
+  {word:"Hund", split:"Hund", count:1},
+  {word:"Baum", split:"Baum", count:1},
+  {word:"Haus", split:"Haus", count:1},
+  {word:"Ball", split:"Ball", count:1},
+  {word:"Buch", split:"Buch", count:1},
+  {word:"Sonne", split:"Son-ne", count:2},
+  {word:"Blume", split:"Blu-me", count:2},
+  {word:"Schule", split:"Schu-le", count:2},
+  {word:"Apfel", split:"Ap-fel", count:2},
+  {word:"Garten", split:"Gar-ten", count:2},
+  {word:"Katze", split:"Kat-ze", count:2},
+  {word:"Vogel", split:"Vo-gel", count:2},
+  {word:"Wolke", split:"Wol-ke", count:2},
+  {word:"Fenster", split:"Fens-ter", count:2},
+  {word:"Elefant", split:"E-le-fant", count:3},
+  {word:"Banane", split:"Ba-na-ne", count:3},
+  {word:"Tomate", split:"To-ma-te", count:3},
+  {word:"Kartoffel", split:"Kar-tof-fel", count:3},
+  {word:"Krokodil", split:"Kro-ko-dil", count:3},
+  {word:"Zitrone", split:"Zi-tro-ne", count:3},
+  {word:"Schokolade", split:"Scho-ko-la-de", count:4},
+  {word:"Regenbogen", split:"Re-gen-bo-gen", count:4}
+];
+
+/* ß oder ss: Wort-Template mit Lücke, Regel-Begründung fürs Tipp */
+const SZ_WORDS = [
+  {tpl:"Stra_e", correct:"ß", full:"Straße", reason:"langes a"},
+  {tpl:"Fu_ball", correct:"ß", full:"Fußball", reason:"langes u"},
+  {tpl:"Wa_er", correct:"ss", full:"Wasser", reason:"kurzes a"},
+  {tpl:"gro_", correct:"ß", full:"groß", reason:"langes o"},
+  {tpl:"Flu_", correct:"ss", full:"Fluss", reason:"kurzes u"},
+  {tpl:"hei_en", correct:"ß", full:"heißen", reason:"Doppellaut ei"},
+  {tpl:"Kla_e", correct:"ss", full:"Klasse", reason:"kurzes a"},
+  {tpl:"flie_en", correct:"ß", full:"fließen", reason:"langes ie"},
+  {tpl:"schie_en", correct:"ß", full:"schießen", reason:"langes ie"},
+  {tpl:"e_en", correct:"ss", full:"essen", reason:"kurzes e"},
+  {tpl:"wei_", correct:"ß", full:"weiß", reason:"Doppellaut ei"},
+  {tpl:"Nu_", correct:"ss", full:"Nuss", reason:"kurzes u"},
+  {tpl:"gie_en", correct:"ß", full:"gießen", reason:"langes ie"},
+  {tpl:"Schlo_", correct:"ss", full:"Schloss", reason:"kurzes o"},
+  {tpl:"hei_", correct:"ß", full:"heiß", reason:"Doppellaut ei"},
+  {tpl:"mu_", correct:"ss", full:"muss", reason:"kurzes u"},
+  {tpl:"au_en", correct:"ß", full:"außen", reason:"Doppellaut au"},
+  {tpl:"Ta_e", correct:"ss", full:"Tasse", reason:"kurzes a"}
+];
+
+/* Verlängerungsstrategie: Wort-Ende d/t, g/k, b/p per Mehrzahl prüfen */
+const VERLAENG_WORDS = [
+  {tpl:"Hun_", options:["d","t"], correct:"d", full:"Hund", extend:"Hunde"},
+  {tpl:"Han_", options:["d","t"], correct:"d", full:"Hand", extend:"Hände"},
+  {tpl:"Kin_", options:["d","t"], correct:"d", full:"Kind", extend:"Kinder"},
+  {tpl:"Lan_", options:["d","t"], correct:"d", full:"Land", extend:"Länder"},
+  {tpl:"Bro_", options:["t","d"], correct:"t", full:"Brot", extend:"Brote"},
+  {tpl:"Ra_", options:["d","t"], correct:"d", full:"Rad", extend:"Räder"},
+  {tpl:"Wal_", options:["d","t"], correct:"d", full:"Wald", extend:"Wälder"},
+  {tpl:"Ta_", options:["g","k"], correct:"g", full:"Tag", extend:"Tage"},
+  {tpl:"We_", options:["g","k"], correct:"g", full:"Weg", extend:"Wege"},
+  {tpl:"Zwer_", options:["g","k"], correct:"g", full:"Zwerg", extend:"Zwerge"},
+  {tpl:"star_", options:["k","g"], correct:"k", full:"stark", extend:"stärker"},
+  {tpl:"Kal_", options:["b","p"], correct:"b", full:"Kalb", extend:"Kälber"},
+  {tpl:"Die_", options:["b","p"], correct:"b", full:"Dieb", extend:"Diebe"}
+];
+
+/* Rechtschreibung / Diktat: richtig-falsch-Wortpaare (level 1 = leicht, level 2 = schwer) */
+const SPELLING_PAIRS = [
+  {correct:"Ball", wrong:"Bal", level:1},
+  {correct:"Hund", wrong:"Hunt", level:1},
+  {correct:"Vater", wrong:"Fater", level:1},
+  {correct:"Vogel", wrong:"Fogel", level:1},
+  {correct:"Fisch", wrong:"Visch", level:1},
+  {correct:"Mutter", wrong:"Muter", level:1},
+  {correct:"Winter", wrong:"Vinter", level:1},
+  {correct:"Kinder", wrong:"Kinter", level:1},
+  {correct:"Ampel", wrong:"Anpel", level:1},
+  {correct:"Wolke", wrong:"Volke", level:1},
+  {correct:"Schule", wrong:"Schuhle", level:2},
+  {correct:"Fahrrad", wrong:"Farrad", level:2},
+  {correct:"Straße", wrong:"Strase", level:2},
+  {correct:"Fußball", wrong:"Fusball", level:2},
+  {correct:"Baum", wrong:"Baom", level:2},
+  {correct:"Blume", wrong:"Blumme", level:2},
+  {correct:"Fenster", wrong:"Venster", level:2},
+  {correct:"Schwimmen", wrong:"Schwimen", level:2},
+  {correct:"Löffel", wrong:"Löfel", level:2},
+  {correct:"Teller", wrong:"Teler", level:2},
+  {correct:"Giraffe", wrong:"Girafe", level:2}
+];
+
+/* Lückenwörter (level 1 = einfache Vokal-Lücken, level 2 = Konsonanten/Umlaute) */
+const FILL_WORDS = [
+  {tpl:"H_nd", correct:"u", options:["u","o","a","e"], full:"Hund", level:1},
+  {tpl:"K_tze", correct:"a", options:["a","o","u","i"], full:"Katze", level:1},
+  {tpl:"M_us", correct:"a", options:["a","e","i","o"], full:"Maus", level:1},
+  {tpl:"V_gel", correct:"o", options:["o","a","u","e"], full:"Vogel", level:1},
+  {tpl:"B_um", correct:"a", options:["a","e","o","i"], full:"Baum", level:1},
+  {tpl:"F_sch", correct:"i", options:["i","e","a","u"], full:"Fisch", level:1},
+  {tpl:"Bl_me", correct:"u", options:["u","o","a","e"], full:"Blume", level:1},
+  {tpl:"S_nne", correct:"o", options:["o","u","a","e"], full:"Sonne", level:1},
+  {tpl:"W_lke", correct:"o", options:["o","a","u","i"], full:"Wolke", level:1},
+  {tpl:"T_ger", correct:"i", options:["i","e","a","u"], full:"Tiger", level:1},
+  {tpl:"El_fant", correct:"e", options:["e","a","i","o"], full:"Elefant", level:2},
+  {tpl:"Sch_le", correct:"u", options:["u","o","a","i"], full:"Schule", level:2},
+  {tpl:"Le_rer", correct:"h", options:["h","g","d","t"], full:"Lehrer", level:2},
+  {tpl:"Wa_ser", correct:"s", options:["s","ß","z","f"], full:"Wasser", level:2},
+  {tpl:"Fen_ter", correct:"s", options:["s","z","x","c"], full:"Fenster", level:2},
+  {tpl:"Dra_he", correct:"c", options:["c","g","k","t"], full:"Drache", level:2},
+  {tpl:"Kir_he", correct:"c", options:["c","k","z","t"], full:"Kirche", level:2},
+  {tpl:"Gart_n", correct:"e", options:["e","a","o","i"], full:"Garten", level:2},
+  {tpl:"Fr_hling", correct:"ü", options:["ü","u","o","i"], full:"Frühling", level:2},
+  {tpl:"Bl_te", correct:"ü", options:["ü","u","o","a"], full:"Blüte", level:2},
+  {tpl:"K_nig", correct:"ö", options:["ö","o","u","e"], full:"König", level:2},
+  {tpl:"M_hle", correct:"ü", options:["ü","u","o","a"], full:"Mühle", level:2}
+];
+
+/* Reimwörter (level 1 = leicht/kurz, level 2 = schwerer) */
+const RHYME_GROUPS = [
+  {word:"Baum", correct:"Traum", wrongs:["Tisch","Apfel","Blume"], level:1},
+  {word:"Maus", correct:"Haus", wrongs:["Katze","Sonne","Tiger"], level:1},
+  {word:"Ball", correct:"Fall", wrongs:["Baum","Fisch","Mond"], level:1},
+  {word:"Tisch", correct:"Fisch", wrongs:["Baum","Haus","Katze"], level:1},
+  {word:"Hand", correct:"Wand", wrongs:["Fuß","Kopf","Arm"], level:1},
+  {word:"Zahn", correct:"Hahn", wrongs:["Mund","Auge","Ohr"], level:1},
+  {word:"Hut", correct:"Mut", wrongs:["Kopf","Jacke","Schuh"], level:1},
+  {word:"Nest", correct:"Fest", wrongs:["Baum","Blume","Sonne"], level:1},
+  {word:"Hase", correct:"Nase", wrongs:["Tiger","Wolke","Schule"], level:2},
+  {word:"Ring", correct:"Ding", wrongs:["Apfel","Garten","Löwe"], level:2},
+  {word:"Sonne", correct:"Tonne", wrongs:["Mond","Stern","Wolke"], level:2},
+  {word:"Kind", correct:"Wind", wrongs:["Mond","Apfel","Blume"], level:2},
+  {word:"Stein", correct:"Bein", wrongs:["Wolke","Garten","Vogel"], level:2},
+  {word:"Fuchs", correct:"Luchs", wrongs:["Hase","Igel","Bär"], level:2},
+  {word:"Katze", correct:"Tatze", wrongs:["Hund","Vogel","Maus"], level:2},
+  {word:"Igel", correct:"Ziegel", wrongs:["Hase","Bär","Fuchs"], level:2}
+];
+
+/* ============================================================
+   ÜBUNGEN
+   ============================================================ */
+
+/* ---------- ABC-Wörter ---------- */
+let abcLevel = 1;
+document.querySelectorAll('#abcLevel button').forEach(b=>{
+  b.onclick = ()=>{
+    document.querySelectorAll('#abcLevel button').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active');
+    abcLevel = parseInt(b.dataset.lvl,10);
+  };
+});
+function abcGenQuestion(level){
+  const availableTypes = level===1 ? [0,3] : [0,1,2,3];
+  const type = availableTypes[Math.floor(Math.random()*availableTypes.length)];
+  let text, correctLabel, key, options;
+  if(type===0){
+    const i = Math.floor(Math.random()*25);
+    text = `Welcher Buchstabe kommt im Alphabet nach ${ALPHABET[i]}?`;
+    correctLabel = ALPHABET[i+1];
+  } else if(type===1){
+    const i = Math.floor(Math.random()*25)+1;
+    text = `Welcher Buchstabe kam im Alphabet vor ${ALPHABET[i]}?`;
+    correctLabel = ALPHABET[i-1];
+  } else if(type===2){
+    let w1i, w2i;
+    do{ w1i = Math.floor(Math.random()*WORDS_ABC.length); w2i = Math.floor(Math.random()*WORDS_ABC.length); }while(w1i===w2i);
+    const w1 = WORDS_ABC[w1i], w2 = WORDS_ABC[w2i];
+    const isBefore = w1.localeCompare(w2, 'de') < 0;
+    text = `Steht „${w1}" im Wörterbuch vor oder nach „${w2}"?`;
+    correctLabel = isBefore ? 'davor' : 'danach';
+    key = `dict-${w1}-${w2}`;
+    options = shuffle(['davor','danach']).map(l=>({label:l, correct:l===correctLabel}));
+    return { text, key, _type:type, options };
+  } else {
+    const asksFirst = Math.random()<0.5;
+    const idxs = new Set();
+    while(idxs.size<4){ idxs.add(Math.floor(Math.random()*WORDS_ABC.length)); }
+    const words = [...idxs].map(i=>WORDS_ABC[i]);
+    const sorted = [...words].sort((a,b)=>a.localeCompare(b,'de'));
+    correctLabel = asksFirst ? sorted[0] : sorted[sorted.length-1];
+    text = `Welches Wort kommt im ABC ${asksFirst?'zuerst':'zuletzt'}: ${words.join(', ')}?`;
+    key = `word-${asksFirst?'first':'last'}-${[...words].sort().join('-')}`;
+    options = shuffle(words).map(l=>({label:l, correct:l===correctLabel}));
+    return { text, key, _type:type, options };
+  }
+  const pool = ALPHABET;
+  const poolIdx = pool.indexOf(correctLabel);
+  const wrongIdx = pickWrongOptions(poolIdx, pool, 3);
+  options = shuffle([correctLabel, ...wrongIdx.map(w=>pool[w])]).map(l=>({label:l, correct:l===correctLabel}));
+  return { text, key: text, _type:type, options };
+}
+function abcHint(q){
+  if(q._type===0) return 'Sag das Alphabet leise auf: A-B-C-D-E-F-G-H-I-J-K-L-M-N-O-P-Q-R-S-T-U-V-W-X-Y-Z. Welcher Buchstabe kommt direkt danach?';
+  if(q._type===1) return 'Geh das Alphabet rückwärts durch: Z-Y-X-...-C-B-A. Welcher Buchstabe steht direkt davor?';
+  if(q._type===2) return 'Vergleiche den ersten Buchstaben beider Wörter mit dem Alphabet. Sind die ersten Buchstaben gleich, schau dir den zweiten Buchstaben an.';
+  return 'Vergleiche die Anfangsbuchstaben der Wörter mit dem Alphabet. Beginnen zwei Wörter gleich, schau dir den zweiten Buchstaben an.';
+}
+makeQuiz({
+  prefix:'abc', total:20, moduleLabel:'🔤 ABC-Wörter',
+  genQuestion(){ return abcGenQuestion(abcLevel); },
+  hint: abcHint
+});
+
+/* ---------- Groß-/Kleinschreibung ---------- */
+function caseGenQuestion(){
+  const item = CASE_SENTENCES[Math.floor(Math.random()*CASE_SENTENCES.length)];
+  const text = item.sentence;
+  const options = shuffle([
+    {label:item.correct, correct:true},
+    {label:item.wrong, correct:false}
+  ]);
+  return { text, key:item.sentence, _correct:item.correct, options };
+}
+function caseHint(q){
+  return `Frag dich: Kann davor „der/die/das" stehen? Dann wird das Wort großgeschrieben. Richtig ist hier: „${q._correct}".`;
+}
+function caseParentText(q){
+  return q.text.replace('___', `[${q._correct}]`);
+}
+makeQuiz({
+  prefix:'case', total:15, moduleLabel:'🔠 Groß/Klein',
+  genQuestion: caseGenQuestion,
+  hint: caseHint,
+  parentQuestionText: caseParentText
+});
+
+/* ---------- Wortarten ---------- */
+function wortartGenQuestion(){
+  const item = WORTART_WORDS[Math.floor(Math.random()*WORTART_WORDS.length)];
+  const text = `Welche Wortart ist „${item.word}"?`;
+  const labelFor = t => t==='Nomen' ? 'Nomen 🔴' : (t==='Verb' ? 'Verb 🔵' : 'Adjektiv 🟢');
+  const options = shuffle(['Nomen','Verb','Adjektiv']).map(t=>({label:labelFor(t), correct:t===item.type}));
+  return { text, key:item.word, _type:item.type, options };
+}
+function wortartHint(q){
+  if(q._type==='Nomen') return 'Ein Nomen (Namenwort) kannst du mit „der/die/das" verbinden, z. B. „der Hund". Nomen werden immer großgeschrieben!';
+  if(q._type==='Verb') return 'Ein Verb (Tuwort) sagt, was jemand tut. Frag: „Was tut er/sie?" — „Er läuft."';
+  return 'Ein Adjektiv (Wiewort) beschreibt, wie etwas ist. Frag: „Wie ist es?" — „Der Ball ist schnell."';
+}
+makeQuiz({
+  prefix:'wortart', total:15, moduleLabel:'🎨 Wortarten',
+  genQuestion: wortartGenQuestion,
+  hint: wortartHint
+});
+
+/* ---------- Silben klatschen ---------- */
+function silbeGenQuestion(){
+  const item = SYLLABLE_WORDS[Math.floor(Math.random()*SYLLABLE_WORDS.length)];
+  const text = `Wie viele Silben hat „${item.word}"?`;
+  const pool = [1,2,3,4,5];
+  const poolIdx = pool.indexOf(item.count);
+  const wrongIdx = pickWrongOptions(poolIdx, pool, 3);
+  const options = shuffle([item.count, ...wrongIdx.map(i=>pool[i])]).map(n=>({label:String(n), correct:n===item.count}));
+  return { text, key:item.word, _split:item.split, options };
+}
+function silbeHint(q){
+  return `Klatsche mit: ${q._split} — zähl die Klatscher!`;
+}
+makeQuiz({
+  prefix:'silbe', total:15, moduleLabel:'👏 Silben',
+  genQuestion: silbeGenQuestion,
+  hint: silbeHint
+});
+
+/* ---------- ß oder ss ---------- */
+function szGenQuestion(){
+  const item = SZ_WORDS[Math.floor(Math.random()*SZ_WORDS.length)];
+  const text = item.tpl;
+  const options = shuffle(['ß','ss']).map(l=>({label:l, correct:l===item.correct}));
+  return { text, key:item.full, _full:item.full, _reason:item.reason, options };
+}
+function szHint(q){
+  return `„${q._full}" hat einen ${q._reason} — merk dir die Regel: kurzer Vokal → ss, langer Vokal/Doppellaut → ß.`;
+}
+function szParentText(q){
+  return `${q.text} (Lösung: ${q._full})`;
+}
+makeQuiz({
+  prefix:'sz', total:15, moduleLabel:'📏 ß oder ss',
+  genQuestion: szGenQuestion,
+  hint: szHint,
+  parentQuestionText: szParentText
+});
+
+/* ---------- Verlängerungsstrategie ---------- */
+function verlaengGenQuestion(){
+  const item = VERLAENG_WORDS[Math.floor(Math.random()*VERLAENG_WORDS.length)];
+  const text = item.tpl;
+  const options = shuffle(item.options).map(l=>({label:l, correct:l===item.correct}));
+  return { text, key:item.full, _full:item.full, _extend:item.extend, options };
+}
+function verlaengHint(q){
+  return `Verlängere das Wort: „${q._full}" → „${q._extend}". Welchen Buchstaben hörst du jetzt am Ende des Wortstamms?`;
+}
+function verlaengParentText(q){
+  return `${q.text} (Lösung: ${q._full})`;
+}
+makeQuiz({
+  prefix:'verlaeng', total:13, moduleLabel:'📣 Verlängern',
+  genQuestion: verlaengGenQuestion,
+  hint: verlaengHint,
+  parentQuestionText: verlaengParentText
+});
+
+/* ---------- Rechtschreibung (Wortvergleich, nie isoliert falsch zeigen) ---------- */
+let spLevel = 1;
+document.querySelectorAll('#spLevel button').forEach(b=>{
+  b.onclick = ()=>{
+    document.querySelectorAll('#spLevel button').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active');
+    spLevel = parseInt(b.dataset.lvl,10);
+  };
+});
+function spGenQuestion(level){
+  const pool = SPELLING_PAIRS.filter(p=>p.level<=level);
+  const pair = pool[Math.floor(Math.random()*pool.length)];
+  const text = 'Welches Wort ist richtig geschrieben?';
+  const options = shuffle([
+    {label:pair.correct, correct:true},
+    {label:pair.wrong, correct:false}
+  ]);
+  return { text, key:pair.correct, _correct:pair.correct, options };
+}
+function spHint(q){
+  return `Die richtige Schreibweise ist: „${q._correct}". Sprich das Wort langsam mit — welche Buchstaben hörst du?`;
+}
+function spParentText(q){
+  return `Richtige Schreibweise gesucht (Lösung: ${q._correct})`;
+}
+makeQuiz({
+  prefix:'sp', total:15, moduleLabel:'✏️ Rechtschreibung',
+  genQuestion(){ return spGenQuestion(spLevel); },
+  hint: spHint,
+  parentQuestionText: spParentText
+});
+
+/* ---------- Diktat (nur Hören) ---------- */
+function diktatGenQuestion(){
+  const pair = SPELLING_PAIRS[Math.floor(Math.random()*SPELLING_PAIRS.length)];
+  const options = shuffle([
+    {label:pair.correct, correct:true},
+    {label:pair.wrong, correct:false}
+  ]);
+  return { text:'🔊 Höre gut zu!', key:pair.correct+'-diktat', _audioWord:pair.correct, options };
+}
+function diktatOnQuestion(q){
+  const qEl = document.getElementById('diktat-question');
+  qEl.setAttribute('data-audio', q._audioWord);
+  speak(q._audioWord);
+}
+function diktatHint(){
+  return 'Du kannst dir das Wort mit dem 🔊-Knopf beliebig oft anhören. Achte genau auf jeden Laut!';
+}
+function diktatParentText(q){
+  return `Diktat-Wort (Lösung: ${q._audioWord})`;
+}
+makeQuiz({
+  prefix:'diktat', total:15, moduleLabel:'🎧 Diktat',
+  genQuestion: diktatGenQuestion,
+  onQuestion: diktatOnQuestion,
+  hint: diktatHint,
+  parentQuestionText: diktatParentText
+});
+
+/* ---------- Lückenwörter ---------- */
+let fillLevel = 1;
+document.querySelectorAll('#fillLevel button').forEach(b=>{
+  b.onclick = ()=>{
+    document.querySelectorAll('#fillLevel button').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active');
+    fillLevel = parseInt(b.dataset.lvl,10);
+  };
+});
+function fillGenQuestion(level){
+  const pool = FILL_WORDS.filter(w=>w.level<=level);
+  const w = pool[Math.floor(Math.random()*pool.length)];
+  const text = w.tpl;
+  const poolIdx = w.options.indexOf(w.correct);
+  const wrongIdx = pickWrongOptions(poolIdx, w.options, Math.min(3, w.options.length-1));
+  const options = shuffle([w.correct, ...wrongIdx.map(i=>w.options[i])]).map(l=>({label:l, correct:l===w.correct}));
+  return { text, key:w.full, _full:w.full, options };
+}
+function fillHint(q){
+  return `Sprich das Wort langsam: „${q._full}". Welcher Laut fehlt in der Lücke?`;
+}
+function fillParentText(q){
+  return `Lückenwort: ${q.text} (Lösung: ${q._full})`;
+}
+makeQuiz({
+  prefix:'fill', total:15, moduleLabel:'🧩 Lückenwörter',
+  genQuestion(){ return fillGenQuestion(fillLevel); },
+  hint: fillHint,
+  parentQuestionText: fillParentText
+});
+
+/* ---------- Reimwörter ---------- */
+let rhymeLevel = 1;
+document.querySelectorAll('#rhymeLevel button').forEach(b=>{
+  b.onclick = ()=>{
+    document.querySelectorAll('#rhymeLevel button').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active');
+    rhymeLevel = parseInt(b.dataset.lvl,10);
+  };
+});
+function rhymeGenQuestion(level){
+  const pool = RHYME_GROUPS.filter(g=>g.level<=level);
+  const g = pool[Math.floor(Math.random()*pool.length)];
+  const text = `Welches Wort reimt sich auf „${g.word}"?`;
+  const options = shuffle([g.correct, ...g.wrongs]).map(l=>({label:l, correct:l===g.correct}));
+  return { text, key:g.word, options };
+}
+function rhymeHint(){
+  return 'Sprich beide Wörter laut nacheinander aus. Klingt das Ende der Wörter gleich?';
+}
+makeQuiz({
+  prefix:'rhyme', total:15, moduleLabel:'🎵 Reimwörter',
+  genQuestion(){ return rhymeGenQuestion(rhymeLevel); },
+  hint: rhymeHint
+});
+
+/* ---------- Gemischtes Quiz (alle Übungen) ---------- */
+function mixGenQuestion(){
+  const modules = ['abc','case','wortart','silbe','sz','verlaeng','sp','diktat','fill','rhyme'];
+  const module = modules[Math.floor(Math.random()*modules.length)];
+  let q;
+  if(module==='abc') q = abcGenQuestion(abcLevel);
+  else if(module==='case') q = caseGenQuestion();
+  else if(module==='wortart') q = wortartGenQuestion();
+  else if(module==='silbe') q = silbeGenQuestion();
+  else if(module==='sz') q = szGenQuestion();
+  else if(module==='verlaeng') q = verlaengGenQuestion();
+  else if(module==='sp') q = spGenQuestion(spLevel);
+  else if(module==='diktat') q = diktatGenQuestion();
+  else if(module==='fill') q = fillGenQuestion(fillLevel);
+  else q = rhymeGenQuestion(rhymeLevel);
+  q._module = module;
+  q.key = module + ':' + (q.key || q.text);
+  return q;
+}
+function mixOnQuestion(q){
+  const qEl = document.getElementById('mix-question');
+  if(q._module==='diktat'){
+    qEl.setAttribute('data-audio', q._audioWord);
+    speak(q._audioWord);
+  } else {
+    qEl.removeAttribute('data-audio');
+  }
+}
+function mixHint(q){
+  if(q._module==='abc') return abcHint(q);
+  if(q._module==='case') return caseHint(q);
+  if(q._module==='wortart') return wortartHint(q);
+  if(q._module==='silbe') return silbeHint(q);
+  if(q._module==='sz') return szHint(q);
+  if(q._module==='verlaeng') return verlaengHint(q);
+  if(q._module==='sp') return spHint(q);
+  if(q._module==='diktat') return diktatHint();
+  if(q._module==='fill') return fillHint(q);
+  return rhymeHint();
+}
+function mixParentText(q){
+  const icons = {abc:'🔤', case:'🔠', wortart:'🎨', silbe:'👏', sz:'📏', verlaeng:'📣', sp:'✏️', diktat:'🎧', fill:'🧩', rhyme:'🎵'};
+  let base;
+  if(q._module==='case') base = caseParentText(q);
+  else if(q._module==='sz') base = szParentText(q);
+  else if(q._module==='verlaeng') base = verlaengParentText(q);
+  else if(q._module==='sp') base = spParentText(q);
+  else if(q._module==='diktat') base = diktatParentText(q);
+  else if(q._module==='fill') base = fillParentText(q);
+  else base = q.text;
+  return icons[q._module] + ' ' + base;
+}
+makeQuiz({
+  prefix:'mix', total:20, moduleLabel:'🔀 Gemischt',
+  genQuestion: mixGenQuestion,
+  onQuestion: mixOnQuestion,
+  hint: mixHint,
+  parentQuestionText: mixParentText
+});
+
+/* ---------- PWA: Service Worker registrieren + Auto-Update ---------- */
+if('serviceWorker' in navigator){
+  let swRefreshed = false;
+  navigator.serviceWorker.addEventListener('controllerchange', ()=>{
+    if(swRefreshed) return;
+    swRefreshed = true;
+    window.location.reload();
+  });
+  window.addEventListener('load', ()=>{
+    navigator.serviceWorker.register('service-worker.js').then((reg)=>{
+      reg.update();
+    }).catch(()=>{});
+  });
+}
+</script>
+
+</body>
+</html>
